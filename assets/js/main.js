@@ -6,6 +6,7 @@
 * License: https://bootstrapmade.com/license/
 */
 
+
 (function() {
   "use strict";
 
@@ -45,6 +46,7 @@
     });
 
   });
+  
 
   /**
    * Toggle mobile nav dropdowns
@@ -182,4 +184,38 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
-})();
+})(); 
+ document.getElementById('whatsapp-icon').addEventListener('click', function () {
+    window.open('https://wa.me/936216324', '_blank');
+  });
+  
+  const placeId = "ChIJDY_EG0XcDDkR3s5KxMoEXMQ"; // Intella Education
+  const apiKey = "YOUR_API_KEY"; // Replace with your key
+
+  fetch(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const reviews = data.result.reviews;
+      const container = document.getElementById("google-reviews");
+
+      reviews.forEach((review) => {
+        const div = document.createElement("div");
+        div.className =
+          "bg-white p-6 rounded-2xl shadow-md border border-gray-200";
+
+        div.innerHTML = `
+          <div class="font-semibold text-lg mb-1">${review.author_name}</div>
+          <div class="text-yellow-400 mb-2">${"★".repeat(
+            review.rating
+          )}${"☆".repeat(5 - review.rating)}</div>
+          <p class="text-gray-700 text-sm">${review.text}</p>
+        `;
+
+        container.appendChild(div);
+      });
+    })
+    .catch((err) => {
+      console.error("Error fetching reviews:", err);
+    });
